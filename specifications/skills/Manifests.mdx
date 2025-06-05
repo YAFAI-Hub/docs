@@ -1,0 +1,223 @@
+---
+title: Skill Manifests
+description: "Skill Manifests for Yafai-skills"
+icon: 'list-tree'
+---
+> Manifests are the core of how yafai-skills enables Large Language Models (LLMs) to interact with external tools and services. 
+
+They act as comprehensive blueprints, defining what a tool can do, how to use it, and what kind of responses to expect.
+
+## What is a Skills Manifest?
+    - Think of a Manifest as a user manual for a specific tool or API, written in a machine-readable format (YAML). 
+    - It provides your LLM with all the necessary instructions to:
+        - Understand a tool's capabilities: What actions can it perform?
+        - Learn how to use it: What inputs does each action require?    
+        - Interpret results: How should it understand successful responses and errors?
+        - By providing these manifests, yafai-skills allows LLMs to go beyond just generating text, enabling them to execute real-world actions like sending emails, querying databases, or managing tasks.
+
+## Anatomy of a Skills Manifest
+> Action Manifests are defined in YAML files and follow a clear, hierarchical structure.
+
+```yaml Basic Structure
+name: [Service Name] # A human-readable name for your tool/service
+description: [Brief description of the service and its purpose] # What does this tool do?
+auth_header: "[Authorization|Bearer|API-Key|Custom]" # How to authenticate with the service (e.g., Bearer token, API-Key)
+actions: # A list of specific operations this tool can perform
+  [ActionName]: # A unique, descriptive name for a single action (e.g., 'send_email', 'get_weather')
+    method: [HTTP_METHOD] # The HTTP method (GET, POST, PUT, DELETE, etc.)
+    headers: # Optional: Custom headers required for this action
+      Content-Type: application/json
+      [Optional-Header-Name]: [Optional-Header-Value]
+    base_url: "[https://api.example.com/resource/path]" # The specific endpoint for this action
+    params: # The input parameters required for this action
+      - name: [param_name] # Name of the parameter (e.g., 'query', 'user_id')
+        type: [string|integer|boolean|array|object] # Data type (see "Parameter Types" below)
+        in: [path|query|body|header] # Where the parameter is sent (URL path, query string, request body, header)
+        description: [Parameter description] # What this parameter is for
+        required: [true|false] # Is this parameter mandatory?
+        # Optional: 'enum' or 'items' or 'properties' for complex types (explained below)
+    desc: | # A concise description of what this specific action does (crucial for LLM understanding)
+      [Describe what this action does in one or two lines.]
+    response_template: # How to format the LLM's understanding of success/failure
+      success: |
+        Success response:
+        {{range .results}}
+        - ID: {{.id}}
+        - Example Field: {{.example_field}}
+        {{end}}
+      failure: |
+        Failed to perform action:
+        - Error: {{.error.message}}
+```
+---
+
+# Defining Parameters
+> Parameters are the inputs an action needs. yafai-skills supports various data types to accurately represent your API's requirements.
+
+## Simple Parameter Types
+    These are straightforward individual values like below,
+
+> string: Text (e.g., "hello world")
+
+> integer: Whole numbers (e.g., 123)
+
+> boolean: True/False values (e.g., true, false)
+
+```yaml Simple Parameters
+params:
+  - name: user_id
+    type: integer
+    in: path
+    description: Unique identifier of the user.
+    required: true
+  - name: active_only
+    type: boolean
+    in: query
+    description: Filter for active users.
+    required: false
+```
+
+## Complex Parameter Types
+    These allow for structured data inputs like Arrays, Objects, Nested Arrays/Objects etc.
+
+<Tabs>
+<Tab title="Object Params" label="Object (Structured Data Group)" default>
+    ### Object (Structured Data Group)
+            An object parameter groups several related pieces of information, much like a form with multiple fields.
+
+            Use properties to define the individual fields (and their types, descriptions, and whether they are required) within the object.
+
+            Objects are typically sent in the body of a POST or PUT request.
+
+    ```yaml
+    params:
+    - name: user_details # Our object parameter
+        type: object
+        in: body
+        description: Detailed information about the user.
+        required: true
+        properties: # Defines fields within 'user_details'
+        first_name:
+            type: string
+            description: User's first name.
+            required: true
+        last_name:
+            type: string
+            description: User's last name.
+            required: true
+        email:
+            type: string
+            format: email # Optional: semantic hint for email format
+            description: User's email address.
+            required: false
+    ```
+</Tab>
+<Tab title="Array Params" label="Array (List of Items)">
+    ### Array (List of Items)
+            An array parameter represents a list of items of the same type.
+
+            Use items to describe the data type of each element within the array.
+
+            The items can be simple types (like string, integer) or even complex types (object).
+
+    ```yaml
+    params:
+    - name: product_ids # Our array parameter
+        type: array
+        in: query # Arrays of simple types often in query
+        description: A list of product IDs to retrieve.
+        required: true
+        items: # Each item in 'product_ids' is an integer
+            type: integer
+    ```
+</Tab>
+<Tab title="Nested Objects and Arrays" label="Nested Objects and Arrays">
+    ### Nested objects and arrays
+            You can combine object and array types to define more complex data structures.
+
+            Array of Objects: A list where each item in the list is itself a structured object.
+
+    ```yaml
+    params:
+    - name: new_employees # An array of objects
+        type: array
+        in: body
+        description: A list of new employees to onboard.
+        required: true
+        items: # Each item in 'new_employees' is an object (an employee profile)
+            type: object
+            properties: # Fields for each employee object
+            employee_id:
+                type: string
+            name:
+                type: string
+            department:
+                type: string
+    ```
+</Tab>
+<Tab title="Object with Nested Object" label="Object with Nested Object">
+    ### Object with Nested Object
+            An object containing another object as one of its fields.
+
+    ```yaml
+    params:
+    - name: order_request # Our main object
+        type: object
+        in: body
+        properties:
+        order_id:
+            type: string
+        customer_info: # A nested object
+            type: object
+            description: Customer details for the order.
+            properties: # Fields for 'customer_info'
+            name:
+                type: string
+            address:
+                type: string
+            phone:
+                type: string
+    ```
+</Tab>
+<Tab title="Enum for String" label="Enum (Predefined Options)">
+    ### Enum (Predefined Options)
+            The enum keyword allows you to specify a fixed list of allowed values for string parameters, or for the items within an array of strings. This helps ensure valid inputs and guides the LLM.
+
+            enum for a string parameter:
+            The priority parameter can only be one of "low", "medium", or "high".
+
+    ```yaml
+    params:
+    - name: priority
+        type: string
+        in: query
+        description: The priority level for the task.
+        required: true
+        enum:
+        - low
+        - medium
+        - high
+    ```
+</Tab>
+<Tab title="Enum for Array of Strings" label="Enum for Array of Strings">
+    ### Enum for items in an array of strings:
+    The tags array can contain multiple strings, but each string must be one of the specified categories.
+
+    ```yaml
+    params:
+    - name: tags
+        type: array
+        in: body
+        description: A list of relevant tags.
+        required: false
+        items: # Each item in the 'tags' array
+            type: string
+            enum: # Each tag string must be one of these
+            - marketing
+            - sales
+            - development
+            - support
+    ```
+</Tab>
+</Tabs>
+---

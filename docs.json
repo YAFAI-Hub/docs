@@ -1,17 +1,18 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "Docs",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#1c4d94",
+    "light": "#1c4d94",
+    "dark": "#3374d4"
   },
-  "favicon": "/favicon.svg",
+  
+  "favicon": "/yafai-favicon.svg",
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Get Started",
         "groups": [
           {
             "group": "Get Started",
@@ -20,16 +21,34 @@
               "quickstart",
               "development"
             ]
-          },
+          }
+        ]
+      },
+      {"tab":"YAFAI-Core",
+        "groups": [
           {
-            "group": "Essentials",
+            "group": "YAFAI-Core Documentation",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "specifications/core/Intro",
+              "specifications/core/Installation",
+              "specifications/core/Configuration",
+              "specifications/core/Internals",
+              "specifications/core/Commands",
+              "specifications/core/Contributing"
+            ]
+          }
+        ]
+      },
+      {"tab":"YAFAI-Skills",
+        "groups": [
+          {
+            "group": "YAFAI-Skills Documentation",
+            "pages": [
+              "specifications/skills/Intro",
+              "specifications/skills/Installation",
+              "specifications/skills/Manifests",
+              "specifications/skills/Commands",
+              "specifications/skills/Contributing"
             ]
           }
         ]
@@ -58,26 +77,21 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
+          "anchor": "YAFAI-Core",
+          "href": "https://github.com/yafai-hub/core",
+          "icon": "bot-message-square"
         },
         {
-          "anchor": "Community",
-          "href": "https://mintlify.com/community",
-          "icon": "slack"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "YAFAI-Skills",
+          "href": "https://github.com/yafai-hub/skills",
+          "icon": "server-cog"
         }
       ]
     }
   },
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/yafai-mint-dark.svg",
+    "dark": "/logo/yafai-mint.svg"
   },
   "navbar": {
     "links": [
@@ -92,11 +106,14 @@
       "href": "https://dashboard.mintlify.com"
     }
   },
+  "icons": {
+    "library": "lucide"
+  },
   "footer": {
     "socials": {
       "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "github": "https://github.com/yafai-hub",
+      "linkedin": "https://linkedin.com/company/yafai "
     }
   }
 }

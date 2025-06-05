@@ -1,71 +1,90 @@
 ---
 title: Introduction
-description: "Welcome to the home of your new documentation"
+icon: 'book-text'
+---
+## What is YAFAI ?
+> YAFAI - Yet Another Framework for Agentic Interfaces
+- YAFAI is a modular framework designed to simplify the creation and deployment of multi-agent systems.
+- Instead of writing custom orchestration logic for each scenario, YAFAI allows you to define agents, their behaviours and their integrations through declarative configurations.
+- It's static core ensures consistency and reusability across environments, making it ideal for research, prototyping, or production scenarios involving intelligent agents.
+
+
+  <div className="flex justify-center">
+    <img
+      className="block dark:hidden"
+      src="/images/yafai.png"
+      alt="Hero Light"
+      width="450"
+      height="450"
+    />
+    <img
+      className="hidden dark:block"
+      src="/images/yafai.png"
+      alt="Hero Dark"
+      width="450"
+      height="450"
+    />
+  </div>
+
+## Why YAFAI? 
+YAFAI has been built keeping the below design aspects in mind.
+  - **Configuration Driven :** Define multi-agent systems declaratively.
+  - **Compiled Core :** A stable, reusable runtime that adapts to changing configurations.
+  - **Portability :** Move agent systems seamlessly between local, cloud or edge.
+  - **Versioning :** Track,Manage system changes via version-controlled configurations.
+  - **Rapid Prototyping :** Iterate quickly on agent setups by simply editing configuration files.
+  - **Light Weight :**  Core Engine is a light weight golang binary, released for all major platforms.
+
+
+## Architecture
+
+YAFAI as a project is built around two modules, 
+
+  - **YAFAI-Core** : The core engine that manages agent orchestration and memory
+  - **YAFAI-Skills**: The tools and integration server for YAFAI Agents
+```mermaid
+flowchart LR
+    X[Client] 
+    
+    X <--> C[gRPC Link]
+    X <--> D[WebSocket Link]
+
+    C & D --> E[Orchestrator]
+
+    E <--> F[Agent 1]
+    E <--> G[Agent 2]
+
+    F <--> H1[LLM Provider]
+    F <--> I2[YAFAI-SKills for Integrations]
+
+    G <--> H2[LLM Provider]
+    G <--> I2[YAFAI-Skills for Integrations]
+
+    subgraph YAFAI
+        C
+        D
+    end
+
+    subgraph Agents
+        F
+        G
+    end
+```
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.png"
-  alt="Hero Dark"
-/>
-
-## Setting up
-
-The first step to world-class documentation is setting up your editing environments.
-
 <CardGroup cols={2}>
   <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
+    title="YAFAI-Core"
+    icon="bot-message-square"
     href="https://mintlify.com/docs/quickstart"
   >
-    Get your docs set up locally for easy development
+    Learn more about yafai-core
   </Card>
   <Card
-    title="Preview Changes"
-    icon="image"
+    title="YAFAI-Skills"
+    icon="server-cog"
     href="https://mintlify.com/docs/development"
   >
-    Preview your changes before you push to make sure they're perfect
-  </Card>
-</CardGroup>
-
-## Make it yours
-
-Update your docs to your brand and add valuable content for the best user conversion.
-
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/content/components/accordions"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
+    Learn More about yafai-skills
   </Card>
 </CardGroup>
