@@ -7,7 +7,9 @@
     "light": "#1c4d94",
     "dark": "#3374d4"
   },
-  
+  "icons": {
+    "library": "lucide"
+  },
   "favicon": "/yafai-favicon.svg",
   "navigation": {
     "tabs": [
@@ -75,22 +77,19 @@
     "light": "/logo/yafai-mint-dark.svg",
     "dark": "/logo/yafai-mint.svg"
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+  
+    "navbar": {
+      "primary": 
+        {
+          "type": "button", 
+          "label": "Yafai-Hub",
+          "href": "https://github.com/yafai-hub/"
+
+        }
+      
     }
-  },
-  "icons": {
-    "library": "lucide"
-  },
+  , 
+  
  "contextual": {
    "options": [
     "claude",
