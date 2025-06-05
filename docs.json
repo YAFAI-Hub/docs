@@ -93,8 +93,9 @@
   },
  "contextual": {
    "options": [
-     "chatgpt",
-     "claude"
+    "claude",
+     "chatgpt"
+     
    ]
  },
   "footer": {
