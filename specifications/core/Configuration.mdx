@@ -3,3 +3,49 @@ title: Configuration
 description: "Core Engine for Multi Agent Orchestration"
 icon: 'list-tree'
 ---
+
+> YAFAI-Core takes in a directory of configuration file in the below format.
+
+```yaml
+# Unique name for this configuration
+name: "<project_name>" # e.g. "plane_project_management"
+# High-level purpose or scope of this configuration
+scope: "<overall_scope>" # e.g. "managing projects and issues within the Plane tool"
+orchestrator:
+  name: "<orchestrator_agent_name>" # e.g. "project_manager"
+  description: "<orchestrator_description>" # e.g. "Oversees project creation, issue tracking, and workflow management."
+  scope: "<orchestrator_scope>" # e.g. "Help users manage their projects and issues effectively."
+  model: "<llm_model_name>" # e.g. "llama-3.3-70b-versatile"
+  provider: "<llm_provider>" # e.g. "groq"
+  goal: "<orchestrator_goal>" # e.g. "Streamline project execution and issue resolution."
+  team:
+    <agent_1_name>:
+      name: "<agent_1_name>" # e.g. "project_creator"
+      capabilities: "<agent_1_capabilities>" # e.g. "create new workspaces and projects"
+      description: "<agent_1_description>" # e.g. "Manages the lifecycle of projects."
+      model: "<agent_1_model>" # e.g. "deepseek-r1-distill-llama-70b"
+      provider: "<agent_1_provider>" # e.g. "groq"
+      goal: "<agent_1_goal>" # e.g. "Enable users to organize work."
+      depends: "<dependency_agent>" # e.g. "project_manager"
+      responds: "<responds_to_agent>" # e.g. "project_manager"
+    <agent_2_name>:
+      name: "<agent_2_name>" # e.g. "issue_tracker"
+      capabilities: "<agent_2_capabilities>" # e.g. "create, update, and track issues"
+      description: "<agent_2_description>" # e.g. "Manages the lifecycle of issues."
+      model: "<agent_2_model>" # e.g. "deepseek-r1-distill-llama-70b"
+      provider: "<agent_2_provider>" # e.g. "groq"
+      goal: "<agent_2_goal>" # e.g. "Ensure all issues are logged and up-to-date."
+      depends: "<dependency_agent>" # e.g. "project_creator"
+      responds: "<responds_to_agent>" # e.g. "project_manager"
+
+
+```
+
+<Note type="warning" title="Providers and Models">
+    Implemented LLM providers as of v0.1  are :
+        - `groq`
+    
+    Suggested models are,
+        - `llama-3.3-70b-versatile` for orchestrator
+        - `deepseek-r1-distill-llama-70b` for agents
+</Note>

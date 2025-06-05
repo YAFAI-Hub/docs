@@ -3,3 +3,25 @@ title: Commands
 description: "Core Engine for Multi Agent Orchestration"
 icon: 'terminal'
 ---
+
+> Yafai-Core has few commands and options to run the core engine. 
+
+
+```bash
+
+#once Installed. try yafai-core -h for options
+yafai-core -h
+
+# -c flag takes a directory of configurations
+yafai-core -c /path/to/configs 
+
+# -m flag takes a mode of interaction
+yafai-core -c /path/to/configs -m tui  # this starts a terminal chat ui below are the screenshots
+yafai-core -c /path/to/configs -m link  # this starts the grpc link service only, without the terminal UI.
+```
+
+## Terminal UI
+<Frame>
+![Terminal UI](/images/tui-mode.png)
+</Frame>
+

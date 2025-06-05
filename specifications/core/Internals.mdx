@@ -3,3 +3,52 @@ title: Internals
 description: "Core Engine for Multi Agent Orchestration"
 icon: 'boxes'
 ---
+
+## How does YAFAI-Core work?
+
+<Steps>
+  <Step title="Prepare the workspace configuration">
+    This step involves setting up the workspace configuration, which includes defining the agents, their roles, and the environment they will operate in.
+  </Step>
+  <Step title="Spin up the core engine">
+    In this step, the core engine is initialized and started. This involves loading the configuration and preparing the system to handle agent interactions.
+  </Step>
+  <Step title="Connect to gRPC link and talk to Agents">
+    After the core engine is up, it exposes a gRPC service to communicate with the agents. This allows for real-time interaction and coordination among agents.
+  </Step>
+</Steps>
+
+---
+
+## How YAFAI handles the multi Agentic flow?
+
+<Steps>
+  <Step title="Client connects and sends a message">
+    The client initiates the interaction by connecting to the YAFAI-Core and sending a message. This message typically contains a request or command for the agents.
+  </Step>
+  <Step title="Orchestrator analyses the message and responds">
+    <Warning>If the intent is out of scope orchestrator resists from responding</Warning>
+    <Check>If the intent is a general chat like greetings or summarising existing results, orchestrator responsds with a chat</Check>
+    <Check>If the user request needs an agent invoke, orchestrator requests an agent invoke and dispatches an agent go routine</Check>
+        <Steps>
+            <Step title="Agent Analyses the task given by orchestrator">
+                The orchestrator identifies the appropriate agent based on the request and invokes it. This involves sending the request to the agent and waiting for a response.
+            </Step>
+            <Step title="Agent processes the request">
+                <Tip>
+                Agent fetches the available tools and integrations, if a tool call is needed, the call is made to yafai-skill server.
+                </Tip>
+            </Step>
+            <Step title="Agent sends back response to orchestrator">
+                Once the agent has processed the request, it sends the response back to the orchestrator.
+            </Step>
+        </Steps>
+  </Step>
+  <Step title="Orchestrator sends back final answer to the client">
+    <Warning>If the retries are over and a final answer was not found, orchestrator closes the loop. </Warning>
+    <Check>if the user intent is resolved, the final answer is shared.</Check>
+  </Step>
+</Steps>
+
+---
+

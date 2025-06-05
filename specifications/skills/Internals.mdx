@@ -1,0 +1,68 @@
+---
+title: Internals
+description: "Internals of yafai-skills for tools and third party integrations"
+icon: 'boxes'
+---
+
+## How does YAFAI-Skills work?
+
+<Steps>
+  <Step title="Prepare the skill manifest">
+    This step involves creating a skill manifest that defines the tools and third-party integrations available to the agents. The manifest includes details about each tool, such as its name, description, and how it can be invoked.
+  </Step>
+  <Step title="Spin up the skill server">
+    This spins up a unix socket that core can connect to and request available tools and integrations. The skill server listens for requests from the YAFAI-Core and responds with the appropriate tool or integration details.
+  </Step>
+  <Step title="Agent asks for available tools">
+    After the skill server is up, agents can connect to it to access the tools and integrations defined in the manifest. This allows agents to perform actions and retrieve information from external systems.
+  </Step>
+  <Step title="Agent invokes a tool or integration based on LLM recommendation">
+    When an agent needs to perform an action that requires a tool or integration, it sends a request to the skill server. The server processes the request and executes the appropriate tool or integration, returning the result to the agent.
+  </Step>
+</Steps>
+
+---
+
+## How YAFAI-Skills handles the tool or integrataion execution?
+
+> Skill Server is a gRPC service with the following proto, 
+
+```proto Skill Server RPCs
+
+service SkillService {
+  rpc GetActions (GetActionRequest) returns (GetActionsResponse);
+  rpc ExecuteAction (ExecuteActionRequest) returns (ExecuteActionResponse);
+}
+
+```
+
+### GetAction RPC
+```proto
+message GetActionRequest {
+  string task = 1;
+}
+
+message GetActionsResponse {
+  repeated Action actions = 1;
+}
+```
+
+### ExecuteAction RPC
+```proto
+message ExecuteActionRequest {
+  string name = 1; // Name of the action to execute
+  google.protobuf.Struct queryParams = 2;
+  google.protobuf.Struct bodyParams = 3; // Represent body parameters as a map
+  google.protobuf.Struct pathParams = 4; // For parameters in the URL path
+}
+
+message ExecuteActionResponse {
+  string response = 1;
+  Value result = 2;
+  Error error = 3;
+}
+```
+
+
+---
+

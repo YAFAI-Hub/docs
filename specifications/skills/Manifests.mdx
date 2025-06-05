@@ -89,28 +89,28 @@ params:
 
             Objects are typically sent in the body of a POST or PUT request.
 
-    ```yaml
-    params:
-    - name: user_details # Our object parameter
-        type: object
-        in: body
-        description: Detailed information about the user.
+```yaml
+params:
+  - name: user_details # Our object parameter
+    type: object
+    in: body
+    description: Detailed information about the user.
+    required: true
+    properties: # Defines fields within 'user_details' as a list
+      - name: first_name
+        type: string
+        description: User's first name.
         required: true
-        properties: # Defines fields within 'user_details'
-        first_name:
-            type: string
-            description: User's first name.
-            required: true
-        last_name:
-            type: string
-            description: User's last name.
-            required: true
-        email:
-            type: string
-            format: email # Optional: semantic hint for email format
-            description: User's email address.
-            required: false
-    ```
+      - name: last_name
+        type: string
+        description: User's last name.
+        required: true
+      - name: email
+        type: string
+        format: email # Optional: semantic hint for email format
+        description: User's email address.
+        required: false
+```
 </Tab>
 <Tab title="Array Params" label="Array (List of Items)">
     ### Array (List of Items)
@@ -120,16 +120,16 @@ params:
 
             The items can be simple types (like string, integer) or even complex types (object).
 
-    ```yaml
-    params:
-    - name: product_ids # Our array parameter
-        type: array
-        in: query # Arrays of simple types often in query
-        description: A list of product IDs to retrieve.
-        required: true
-        items: # Each item in 'product_ids' is an integer
-            type: integer
-    ```
+```yaml
+params:
+  - name: product_ids # Our array parameter
+    type: array
+    in: query # Arrays of simple types often in query
+    description: A list of product IDs to retrieve.
+    required: true
+    items: # Each item in 'product_ids' is an integer
+      type: integer
+```
 </Tab>
 <Tab title="Nested Objects and Arrays" label="Nested Objects and Arrays">
     ### Nested objects and arrays
@@ -137,47 +137,92 @@ params:
 
             Array of Objects: A list where each item in the list is itself a structured object.
 
-    ```yaml
-    params:
-    - name: new_employees # An array of objects
-        type: array
-        in: body
-        description: A list of new employees to onboard.
+```yaml
+params:
+  - name: new_employees # An array of objects
+    type: array
+    in: body
+    description: A list of new employees to onboard.
+    required: true
+    items: # Direct list of properties for EACH object in the array
+      - name: employee_id
+        type: string
+        description: Unique ID of the employee.
         required: true
-        items: # Each item in 'new_employees' is an object (an employee profile)
-            type: object
-            properties: # Fields for each employee object
-            employee_id:
-                type: string
-            name:
-                type: string
-            department:
-                type: string
-    ```
+      - name: name
+        type: string
+        description: Full name of the employee.
+        required: true
+      - name: department
+        type: string
+        description: Department the employee belongs to.
+        required: false
+```
 </Tab>
 <Tab title="Object with Nested Object" label="Object with Nested Object">
     ### Object with Nested Object
             An object containing another object as one of its fields.
 
-    ```yaml
-    params:
-    - name: order_request # Our main object
+```yaml
+params:
+  - name: order_request # Our main object
+    type: object
+    in: body
+    description: Details for a new order.
+    required: true
+    properties: # Fields for 'order_request'
+      - name: order_id
+        type: string
+        description: Unique identifier for the order.
+        required: true
+      - name: quantity
+        type: integer
+        description: Number of items in the order.
+        required: true
+      - name: shipping_address # A nested object
         type: object
-        in: body
-        properties:
-        order_id:
+        description: The delivery address for the order.
+        required: true
+        properties: # Fields for 'shipping_address', defined as a list
+          - name: street
             type: string
-        customer_info: # A nested object
-            type: object
-            description: Customer details for the order.
-            properties: # Fields for 'customer_info'
-            name:
-                type: string
-            address:
-                type: string
-            phone:
-                type: string
-    ```
+            description: Street address.
+            required: true
+          - name: city
+            type: string
+            description: City name.
+            required: true
+          - name: zip_code
+            type: string
+            description: Postal code.
+            required: true
+```
+</Tab>
+<Tab title="Root Body" label="Root Body (Entire Request Body)">
+### Root Body (Entire Request Body)
+> The root_body field is a boolean flag (true or false) used exclusively for parameters with in: body. When set to true, it signifies that this particular parameter should represent the entire content of the HTTP request body, rather than being a named field within a larger JSON object.
+
+<Tip>
+This is useful for APIs that expect the root of their request body to be a raw array or a single complex object without an encapsulating key. Only one parameter per action can have root_body: true.
+</Tip>
+```yaml
+params:
+  - name: user_list # This parameter will be the entire body
+    type: array
+    in: body
+    description: A list of user objects to create.
+    required: true
+    root_body: true # This makes 'user_list' the direct JSON array body
+    items: # Define the structure of each user object in the array
+      - name: username
+        type: string
+        description: The user's unique username.
+        required: true
+      - name: email
+        type: string
+        description: The user's email address.
+        required: true
+```
 </Tab>
 <Tab title="Enum for String" label="Enum (Predefined Options)">
     ### Enum (Predefined Options)
@@ -186,38 +231,39 @@ params:
             enum for a string parameter:
             The priority parameter can only be one of "low", "medium", or "high".
 
-    ```yaml
-    params:
-    - name: priority
-        type: string
-        in: query
-        description: The priority level for the task.
-        required: true
-        enum:
-        - low
-        - medium
-        - high
-    ```
+```yaml
+params:
+  - name: priority
+    type: string
+    in: query
+    description: The priority level for the task.
+    required: true
+    enum:
+      - low
+      - medium
+      - high
+```
 </Tab>
 <Tab title="Enum for Array of Strings" label="Enum for Array of Strings">
     ### Enum for items in an array of strings:
     The tags array can contain multiple strings, but each string must be one of the specified categories.
 
-    ```yaml
-    params:
-    - name: tags
-        type: array
-        in: body
-        description: A list of relevant tags.
-        required: false
-        items: # Each item in the 'tags' array
-            type: string
-            enum: # Each tag string must be one of these
-            - marketing
-            - sales
-            - development
-            - support
-    ```
+```yaml
+params:
+  - name: tags
+    type: array
+    in: body
+    description: A list of relevant tags.
+    required: false
+    items: # Each item in the 'tags' array
+      type: string
+      enum: # Each tag string must be one of these
+        - marketing
+        - sales
+        - development
+        - support
+```
 </Tab>
+
 </Tabs>
 ---

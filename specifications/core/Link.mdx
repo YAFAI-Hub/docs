@@ -1,0 +1,65 @@
+---
+title: Link
+description: "gRPC Link between YAFAI-Core and clients"
+icon: 'link' 
+---
+
+> Link is the bridge between the YAFAI-Core and clients, enabling communication.
+> At its core, this ia gRPC service with reflection enabled, allowing clients to discover available services and methods dynamically.
+
+## Proto file schema
+
+```proto
+syntax = "proto3";
+
+option go_package = ".;link";
+
+package link;
+
+
+service ChatService{
+    rpc ChatStream (stream ChatRequest) returns (stream ChatResponse);
+}
+
+message ChatRequest{
+    string request = 1;
+}
+
+message ChatResponse{
+    string response = 1;
+    string trace = 2;
+    
+}
+```
+
+## Usage
+To use the Link service, you can generate client code using the `protoc` compiler with the appropriate plugins for your programming language. For example, in Python, you can use:
+
+```bash
+python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. link.proto
+```
+This will generate the necessary client and server code to interact with the Link service.
+
+## Example Client
+```python
+import grpc
+from link_pb2 import ChatRequest, ChatResponse
+from link_pb2_grpc import ChatServiceStub
+def main():
+    channel = grpc.insecure_channel('localhost:50051')
+    stub = ChatServiceStub(channel)
+
+    # Create a request
+    request = ChatRequest(request="Hello, YAFAI-Core!")
+
+    # Send the request and receive the response
+    response_stream = stub.ChatStream(iter([request]))
+
+    for response in response_stream:
+        print(f"Response: {response.response}, Trace: {response.trace}")
+    channel.close()
+if __name__ == "__main__":
+    main()
+``` 
+This example demonstrates how to connect to the Link service, send a chat request, and receive responses in a streaming manner. You can adapt this code to fit your specific use case and programming language.
+

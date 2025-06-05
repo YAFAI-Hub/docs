@@ -18,8 +18,8 @@
             "group": "Get Started",
             "pages": [
               "index",
-              "quickstart",
-              "development"
+              "hub",
+              "timeline"
             ]
           }
         ]
@@ -29,12 +29,13 @@
           {
             "group": "YAFAI-Core Documentation",
             "pages": [
-              "specifications/core/Intro",
               "specifications/core/Installation",
               "specifications/core/Configuration",
               "specifications/core/Internals",
+              "specifications/core/Link",
               "specifications/core/Commands",
               "specifications/core/Contributing"
+              
             ]
           }
         ]
@@ -44,35 +45,16 @@
           {
             "group": "YAFAI-Skills Documentation",
             "pages": [
-              "specifications/skills/Intro",
               "specifications/skills/Installation",
               "specifications/skills/Manifests",
+              "specifications/skills/Internals",
               "specifications/skills/Commands",
               "specifications/skills/Contributing"
             ]
           }
         ]
-      },
-      {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": [
-              "api-reference/introduction"
-            ]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
-        ]
       }
+     
     ],
     "global": {
       "anchors": [
@@ -109,6 +91,12 @@
   "icons": {
     "library": "lucide"
   },
+ "contextual": {
+   "options": [
+     "chatgpt",
+     "claude"
+   ]
+ },
   "footer": {
     "socials": {
       "x": "https://x.com/mintlify",

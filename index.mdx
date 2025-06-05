@@ -9,22 +9,22 @@ icon: 'book-text'
 - It's static core ensures consistency and reusability across environments, making it ideal for research, prototyping, or production scenarios involving intelligent agents.
 
 
-  <div className="flex justify-center">
+  <Frame>
     <img
       className="block dark:hidden"
       src="/images/yafai.png"
       alt="Hero Light"
-      width="450"
-      height="450"
+      width="350"
+      height="350"
     />
     <img
       className="hidden dark:block"
       src="/images/yafai.png"
       alt="Hero Dark"
-      width="450"
-      height="450"
+      width="350"
+      height="350"
     />
-  </div>
+  </Frame>
 
 ## Why YAFAI? 
 YAFAI has been built keeping the below design aspects in mind.
@@ -47,9 +47,8 @@ flowchart LR
     X[Client] 
     
     X <--> C[gRPC Link]
-    X <--> D[WebSocket Link]
 
-    C & D --> E[Orchestrator]
+    C <--> E[Orchestrator]
 
     E <--> F[Agent 1]
     E <--> G[Agent 2]
@@ -62,7 +61,6 @@ flowchart LR
 
     subgraph YAFAI
         C
-        D
     end
 
     subgraph Agents
@@ -76,14 +74,14 @@ flowchart LR
   <Card
     title="YAFAI-Core"
     icon="bot-message-square"
-    href="https://mintlify.com/docs/quickstart"
+    href="specifications/core"
   >
     Learn more about yafai-core
   </Card>
   <Card
     title="YAFAI-Skills"
     icon="server-cog"
-    href="https://mintlify.com/docs/development"
+    href="specifications/skills"
   >
     Learn More about yafai-skills
   </Card>
