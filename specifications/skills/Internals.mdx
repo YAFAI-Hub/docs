@@ -1,5 +1,5 @@
 ---
-title: Internals
+title: How does it work?
 description: "Internals of yafai-skills for tools and third party integrations"
 icon: 'boxes'
 ---
@@ -23,11 +23,11 @@ icon: 'boxes'
 
 ---
 
-## How YAFAI-Skills handles the tool or integrataion execution?
+## How YAFAI-Skills handles the tool or integration execution?
 
 > Skill Server is a gRPC service with the following proto, 
 
-```proto Skill Server RPCs
+```proto Skill Server RPCs 
 
 service SkillService {
   rpc GetActions (GetActionRequest) returns (GetActionsResponse);
@@ -35,6 +35,10 @@ service SkillService {
 }
 
 ```
+<Tip>
+>These two RPCs form the basic interface for fetching, and executing tools for yafai agents.
+>Invoke them via "ANY" gRPC client.
+</Tip>
 
 ### GetAction RPC
 ```proto

@@ -31,9 +31,9 @@
           {
             "group": "YAFAI-Core Documentation",
             "pages": [
+              "specifications/core/Internals",
               "specifications/core/Installation",
               "specifications/core/Configuration",
-              "specifications/core/Internals",
               "specifications/core/Link",
               "specifications/core/Commands",
               "specifications/core/Contributing"
@@ -47,10 +47,11 @@
           {
             "group": "YAFAI-Skills Documentation",
             "pages": [
+              "specifications/skills/Internals",
               "specifications/skills/Installation",
               "specifications/skills/Manifests",
-              "specifications/skills/Internals",
               "specifications/skills/Commands",
+              "specifications/skills/Transports",
               "specifications/skills/Contributing"
             ]
           }
