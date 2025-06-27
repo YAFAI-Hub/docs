@@ -62,12 +62,12 @@
     "global": {
       "anchors": [
         {
-          "anchor": "YAFAI-Core",
+          "anchor": "YAFAI-Core [Repo]",
           "href": "https://github.com/yafai-hub/core",
           "icon": "bot-message-square"
         },
         {
-          "anchor": "YAFAI-Skills",
+          "anchor": "YAFAI-Skills [Repo]",
           "href": "https://github.com/yafai-hub/skills",
           "icon": "server-cog"
         }
