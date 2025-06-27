@@ -12,12 +12,14 @@ icon: 'terminal'
 #once Installed. try yafai-core -h for options
 yafai-core -h
 
-# -c flag takes a directory of configurations
-yafai-core -c /path/to/configs 
+yafai-core init # intitalizes the default configuration 
 
-# -m flag takes a mode of interaction
-yafai-core -c /path/to/configs -m tui  # this starts a terminal chat ui below are the screenshots
-yafai-core -c /path/to/configs -m link  # this starts the grpc link service only, without the terminal UI.
+
+yafai-core load <path to workspace configuration yaml file> # this loads the workspace configuration file
+
+yafai-core -m tui  # this starts a terminal chat ui below are the screenshots
+yafai-core -m link  # this starts the grpc link service only, without the terminal UI.
+
 ```
 
 ## Terminal UI

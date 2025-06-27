@@ -127,8 +127,8 @@ params:
     in: query # Arrays of simple types often in query
     description: A list of product IDs to retrieve.
     required: true
-    items: # Each item in 'product_ids' is an integer
-      type: integer
+    items: # Each item in items can param with its own param defintion 'product_ids' is an integer
+      - type: integer
 ```
 </Tab>
 <Tab title="Nested Objects and Arrays" label="Nested Objects and Arrays">
